@@ -19,12 +19,14 @@ public class LobbyService {
 
     public List<PopulatedLobby> getLobbyForName(String name) {
         Iterable<Lobby> lobbies = this.lobbyRepository.findAll();
-        lobbies.forEach(lobby -> {
-            PopulatedLobby populatedLobby = new PopulatedLobby();
-            populatedLobby.setLobbyId(lobby.getLobbyId());
-            populatedLobby.
-
-        });
+        // TODO:
+        // Complete first service
+//        lobbies.forEach(lobby -> {
+//            PopulatedLobby populatedLobby = new PopulatedLobby();
+//            populatedLobby.setLobbyId(lobby.getLobbyId());
+//            populatedLobby.
+//
+//        });
         return null;
     }
 }
