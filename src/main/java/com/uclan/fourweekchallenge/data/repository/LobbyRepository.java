@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LobbyRepository extends CrudRepository<Lobby, Long> {
-
+    Lobby findLobbyByName(String name);
 }

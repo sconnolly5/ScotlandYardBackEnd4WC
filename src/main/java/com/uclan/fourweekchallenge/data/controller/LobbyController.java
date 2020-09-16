@@ -1,20 +1,24 @@
 package com.uclan.fourweekchallenge.data.controller;
 
 import com.uclan.fourweekchallenge.data.entity.Lobby;
+import com.uclan.fourweekchallenge.data.entity.Player;
 import com.uclan.fourweekchallenge.data.repository.LobbyRepository;
-import java.util.Random;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+import com.uclan.fourweekchallenge.data.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
+import java.util.Map;
+import java.util.Random;
+import java.util.stream.StreamSupport;
 
 @RestController
 @RequestMapping("/lobbies")
 @CrossOrigin
 public class LobbyController {
+    @Autowired
+    private PlayerRepository playerRepository;
+
     @Autowired
     private LobbyRepository lobbyRepository;
 
@@ -22,7 +26,7 @@ public class LobbyController {
     private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
 
     
-    @GetMapping("/")
+    @GetMapping
     public Iterable<Lobby> getLobbies() {
         return this.lobbyRepository.findAll();
     }
@@ -37,6 +41,20 @@ public class LobbyController {
         this.lobbyRepository.save(lobby);
         return lobby;
     }
+    
+    @GetMapping("/destroy")
+    public Map<String, Boolean> destroyLobby(@RequestParam String lobbyCode) {
+        Lobby lobby = lobbyRepository.findLobbyByName(lobbyCode);
+        if (lobby == null) {
+            return Collections.singletonMap("success", false);
+        }
+
+        Iterable<Player> players = playerRepository.findByLobbyId(lobby.getLobbyId());
+        playerRepository.deleteAll(players);
+        lobbyRepository.delete(lobby);
+
+        return Collections.singletonMap("success", true);
+    }
 
     private String getNewLobbyCode(Iterable<Lobby> lobbies) {
         String lobbyCode = "";
@@ -45,16 +63,16 @@ public class LobbyController {
         while (!lobbyIdGenerated) {
             
             Random r = new Random();
-            String randomString = "";
+            StringBuilder randomString = new StringBuilder();
             for (int i = 0; i < CODE_LENGTH; i++) {
-                randomString += ALPHABET.charAt(r.nextInt(ALPHABET.length()));
+                randomString.append(ALPHABET.charAt(r.nextInt(ALPHABET.length())));
             }
             
-            final String proposedCode = randomString.toUpperCase();
-            lobbyIdGenerated = !StreamSupport
+            final String proposedCode = randomString.toString().toUpperCase();
+            lobbyIdGenerated = StreamSupport
                     .stream(lobbies.spliterator(), false)
-                    .map(o -> o.getName())
-                    .anyMatch(o -> o.equals(proposedCode));
+                    .map(Lobby::getName)
+                    .noneMatch(o -> o.equals(proposedCode));
             lobbyCode = proposedCode;
         }
         return lobbyCode;

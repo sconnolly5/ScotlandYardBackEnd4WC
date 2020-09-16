@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PlayerRepository extends CrudRepository<Player, Long> {
+    Iterable<Player> findByLobbyId(long Id);
 }
