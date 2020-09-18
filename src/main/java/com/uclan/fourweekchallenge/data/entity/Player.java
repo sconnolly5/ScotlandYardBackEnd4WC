@@ -17,8 +17,14 @@ public class Player {
     @Column(name="IS_MR_X")
     private boolean isMrX;
 
-    @Column(name="LOBBY_ID")
-    private long lobbyId;
+    @Column(name="CURRENT_NODE")
+    private long currentNode;
+
+    @Column(name="GAME_ID")
+    private long gameId;
+
+    @Column(name="TURN_ORDER")
+    private int turnOrder;
 
     public long getPlayerId() {
         return playerId;
@@ -44,11 +50,27 @@ public class Player {
         isMrX = mrX;
     }
 
-    public long getLobbyId() {
-        return lobbyId;
+    public long getGameId() {
+        return gameId;
     }
 
-    public void setLobbyId(long lobbyId) {
-        this.lobbyId = lobbyId;
+    public void setGameId(long gameId) {
+        this.gameId = gameId;
+    }
+
+    public long getCurrentNode() {
+        return currentNode;
+    }
+
+    public void setCurrentNode(long currentNode) {
+        this.currentNode = currentNode;
+    }
+
+    public int getTurnOrder() {
+        return turnOrder;
+    }
+
+    public void setTurnOrder(int turnOrder) {
+        this.turnOrder = turnOrder;
     }
 }

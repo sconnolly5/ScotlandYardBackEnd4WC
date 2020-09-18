@@ -1,10 +1,10 @@
 package com.uclan.fourweekchallenge.data.repository;
 
-import com.uclan.fourweekchallenge.data.entity.Lobby;
+import com.uclan.fourweekchallenge.data.entity.Game;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface LobbyRepository extends CrudRepository<Lobby, Long> {
-    Lobby findLobbyByName(String name);
+public interface GameRepository extends CrudRepository<Game, Long> {
+    Game findByGameId(long id);
 }
