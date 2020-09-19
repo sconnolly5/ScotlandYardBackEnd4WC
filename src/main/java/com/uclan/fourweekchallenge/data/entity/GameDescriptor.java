@@ -1,31 +1,10 @@
 package com.uclan.fourweekchallenge.data.entity;
 
-public class GameDescriptor {
-    private long gameId;
-    private int numPlayers;
-    private String mapName;
+import org.immutables.value.Value;
 
-    public long getGameId() {
-        return gameId;
-    }
-
-    public void setGameId(long gameId) {
-        this.gameId = gameId;
-    }
-
-    public int getNumPlayers() {
-        return numPlayers;
-    }
-
-    public void setNumPlayers(int numPlayers) {
-        this.numPlayers = numPlayers;
-    }
-
-    public String getMapName() {
-        return mapName;
-    }
-
-    public void setMapName(String mapName) {
-        this.mapName = mapName;
-    }
+@Value.Immutable
+public abstract class GameDescriptor {
+    public abstract long gameId();
+    public abstract int numPlayers();
+    public abstract String mapName();
 }

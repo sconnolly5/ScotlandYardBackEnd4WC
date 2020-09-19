@@ -3,6 +3,7 @@ package com.uclan.fourweekchallenge.data.controller;
 import com.google.common.collect.Lists;
 import com.uclan.fourweekchallenge.data.entity.Game;
 import com.uclan.fourweekchallenge.data.entity.GameDescriptor;
+import com.uclan.fourweekchallenge.data.entity.ImmutableGameDescriptor;
 import com.uclan.fourweekchallenge.data.entity.Player;
 import com.uclan.fourweekchallenge.data.repository.GameRepository;
 import com.uclan.fourweekchallenge.data.repository.MapRepository;
@@ -34,21 +35,30 @@ public class GameController {
     }
 
     @GetMapping("/descriptors")
-    public Map<Long, GameDescriptor> getGameDescriptors() {
-        Map<Long, GameDescriptor> results = new HashMap<>();
+    public Map<Integer, GameDescriptor> getGameDescriptors() {
+        Map<Integer, GameDescriptor> results = new HashMap<>();
         Iterable<Game> games = this.gameRepository.findAll();
         games.forEach(game -> {
-            GameDescriptor gameDescriptor = new GameDescriptor();
-            gameDescriptor.setGameId(game.getGameId());
             int numPlayers = Lists.newArrayList(playerRepository.findByGameId(game.getGameId())).size();
-            gameDescriptor.setNumPlayers(numPlayers);
-
             Optional<com.uclan.fourweekchallenge.data.entity.Map> map = mapRepository.findById(game.getMapId());
-            map.ifPresent(value -> gameDescriptor.setMapName((value.getName())));
-            results.put(gameDescriptor.getGameId(), gameDescriptor);
+            String mapName = "";
+            if (map.isPresent()) {
+                mapName = map.get().getName();
+            }
+            GameDescriptor gameDescriptor = ImmutableGameDescriptor
+                    .builder()
+                    .gameId(game.getGameId())
+                    .numPlayers(numPlayers)
+                    .mapName(mapName)
+                    .build();
+
+            results.put(results.size(), gameDescriptor);
         });
         return results;
     }
+
+//    @GetMapping("/state")
+//    public Map<Integer, >
 
     @GetMapping("/create")
     public Game createGame() {
