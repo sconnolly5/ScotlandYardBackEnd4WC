@@ -10,6 +10,9 @@ public class GraphNode {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long nodeId;
 
+    @Column(name="NUMBER")
+    private int number;
+
     @Column(name="PIXEL_X")
     private int pixelX;
 
@@ -49,5 +52,13 @@ public class GraphNode {
 
     public void setMapId(long mapId) {
         this.mapId = mapId;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
     }
 }
