@@ -26,6 +26,15 @@ public class Player {
     @Column(name="TURN_ORDER")
     private int turnOrder;
 
+    @Column(name="YELLOW_TICKETS")
+    private int yellowTickets;
+
+    @Column(name="BLUE_TICKETS")
+    private int blueTickets;
+
+    @Column(name="RED_TICKETS")
+    private int redTickets;
+
     public long getPlayerId() {
         return playerId;
     }
@@ -72,5 +81,29 @@ public class Player {
 
     public void setTurnOrder(int turnOrder) {
         this.turnOrder = turnOrder;
+    }
+
+    public int getYellowTickets() {
+        return yellowTickets;
+    }
+
+    public void setYellowTickets(int yellowTickets) {
+        this.yellowTickets = yellowTickets;
+    }
+
+    public int getBlueTickets() {
+        return blueTickets;
+    }
+
+    public void setBlueTickets(int blueTickets) {
+        this.blueTickets = blueTickets;
+    }
+
+    public int getRedTickets() {
+        return redTickets;
+    }
+
+    public void setRedTickets(int redTickets) {
+        this.redTickets = redTickets;
     }
 }

@@ -83,13 +83,15 @@ public class GameController {
                         return currentNode.map(graphNode -> {
                             PlayerState playerState = new PlayerState();
                             playerState.setPlayerName(player.getNickName());
-                            playerState.setCurrentNode(graphNode);
+                            if (player.isMrX()) {
+                                playerState.setCurrentNode(null);
+                            } else {
+                                playerState.setCurrentNode(graphNode);
+                            }
                             playerState.setTurnOrder(player.getTurnOrder());
-                            // TODO:
-                            // Should return correct number of tickets, 0 acting as placeholder
-                            playerState.setBlueTickets(0);
-                            playerState.setYellowTickets(0);
-                            playerState.setRedTickets(0);
+                            playerState.setBlueTickets(player.getBlueTickets());
+                            playerState.setYellowTickets(player.getYellowTickets());
+                            playerState.setRedTickets(player.getRedTickets());
                             return playerState;
                         })
                                 .orElse(null);
